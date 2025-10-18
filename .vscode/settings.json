@@ -1,0 +1,4 @@
+{
+    "cmake.sourceDirectory": "C:/Users/dduqu/OneDrive/Documents/PlatformIO/Projects/esp_hid/lib/esp32-usb-v2",
+    "idf.portWin": "COM5"
+}
