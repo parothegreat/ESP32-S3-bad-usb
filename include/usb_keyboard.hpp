@@ -8,6 +8,6 @@
 #include <EspTinyUSB.h>
 
 // Alias for commonly used HID keyboard constants and classes
-using USBKeyboard = esptinyusb::USBkeyboard;
+using USBKeyboard = EspTinyUSB::USBkeyboard;
 
 #endif // USB_KEYBOARD_HPP
