@@ -3,8 +3,8 @@
 #include <ESPAsyncWebServer.h>
 #include "usb_keyboard.hpp"
 
-const char* ssid = "your_wifi_ssid";
-const char* password = "your_wifi_password";
+const char* ssid = "your_ssid";
+const char* password = "your_password";
 
 esptinyusb::USBkeyboard keyboard;
 AsyncWebServer server(80);
