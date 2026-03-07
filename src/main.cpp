@@ -3,8 +3,8 @@
 #include <ESPAsyncWebServer.h>
 #include "usb_keyboard.hpp"
 
-const char* ssid = "your_ssid";
-const char* password = "your_password";
+const char* ssid = "ALVAROMIKHAYLA";
+const char* password = "IBUNDAKUSAYANG01";
 
 HIDkeyboard keyboard;
 AsyncWebServer server(80);
@@ -16,9 +16,9 @@ void sendChar(char c) {
   uint8_t modifier = conv_table[c][0] ? KEYBOARD_MODIFIER_LEFTSHIFT : 0;
   uint8_t keycode = conv_table[c][1];
 
-  keyboard.sendKey(modifier, keycode);
+  keyboard.sendKey(keycode, modifier);
   delay(50);
-  keyboard.sendKey();  // release
+  keyboard.sendKey(0, 0);  // release
   delay(20);
 }
 
@@ -31,18 +31,18 @@ void sendString(const String& str) {
 void openCMD() {
   while (!tud_hid_n_ready(0)) delay(10);
 
-  keyboard.sendKey(KEYBOARD_MODIFIER_LEFTGUI, HID_KEY_R);
+  keyboard.sendKey(HID_KEY_R, KEYBOARD_MODIFIER_LEFTGUI);
   delay(200);
-  keyboard.sendKey();
+  keyboard.sendKey(0, 0);
   delay(300);
 
   sendString("cmd\n");
 }
 
 void openNotepad() {
-  keyboard.sendKey(KEYBOARD_MODIFIER_LEFTGUI, HID_KEY_R);
+  keyboard.sendKey(HID_KEY_R, KEYBOARD_MODIFIER_LEFTGUI);
   delay(200);
-  keyboard.sendKey();
+  keyboard.sendKey(0, 0);
   delay(300);
 
   sendString("notepad\n");
@@ -51,7 +51,7 @@ void openNotepad() {
 void openBrowser() {
   openCMD();
   delay(1000);
-  keyboard.sendKey();
+  keyboard.sendKey(0, 0);
   delay(300);
 
   sendString("start https://www.microsoft.com\n");
@@ -74,9 +74,9 @@ void shutdownComputer() {
 void initialPayload() {
   while (!tud_hid_n_ready(0)) delay(10);
 
-  keyboard.sendKey(KEYBOARD_MODIFIER_LEFTGUI, HID_KEY_R);
+  keyboard.sendKey(HID_KEY_R, KEYBOARD_MODIFIER_LEFTGUI);
   delay(500);
-  keyboard.sendKey();
+  keyboard.sendKey(0, 0);
   delay(500);
 
   sendString("cmd\n");
@@ -87,8 +87,7 @@ void initialPayload() {
 
 void setup() {
   Serial.begin(115200);
-  keyboard.init();
-  keyboard.begin(1);
+  keyboard.begin();
 
   delay(2000);
 
