@@ -92,18 +92,48 @@ void setup() {
   delay(2000);
 
   WiFi.begin(ssid, password);
-  Serial.print("Connecting to WiFi");
+  Serial.println("\n[WiFi] Attempting to connect...");
+  Serial.print("[WiFi] SSID: ");
+  Serial.println(ssid);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  int attempts = 0;
+  const int max_attempts = 40;  // 40 * 500ms = 20 seconds timeout
+
+  while (WiFi.status() != WL_CONNECTED && attempts < max_attempts) {
     delay(500);
+    attempts++;
     Serial.print(".");
+    
+    
+    if (attempts % 5 == 0) {
+      Serial.print(" ");
+      Serial.print(attempts / 2);
+      Serial.print("s");
+    }
   }
 
-  Serial.println("\nConnected!");
-  Serial.print("Local IP: ");
-  Serial.println(WiFi.localIP());
+  Serial.println();
 
-  delay(2000);
+  // Check final WiFi status
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("[WiFi] ✓ Successfully connected!");
+    Serial.print("[WiFi] Local IP: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("[WiFi] Signal Strength: ");
+    Serial.print(WiFi.RSSI());
+    Serial.println(" dBm");
+  } else {
+    Serial.println("[WiFi] ✗ Failed to connect");
+    Serial.print("[WiFi] Status Code: ");
+    Serial.println(WiFi.status());
+    Serial.println("[WiFi] Possible causes:");
+    Serial.println("  - Incorrect SSID or password");
+    Serial.println("  - WiFi network not available");
+    Serial.println("  - ESP32 out of range");
+    Serial.println("[WiFi] Continuing with initial payload only...");
+  }
+
+  delay(1000);
 
   initialPayload();
   delay(5000);
@@ -179,6 +209,15 @@ void setup() {
   });
 
   server.begin();
+  
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("[Server] ✓ Web server started successfully");
+    Serial.print("[Server] Access at: http://");
+    Serial.print(WiFi.localIP());
+    Serial.println("/");
+  } else {
+    Serial.println("[Server] ⚠ Web server started (no WiFi connection)");
+  }
 }
 
 void loop() {}
