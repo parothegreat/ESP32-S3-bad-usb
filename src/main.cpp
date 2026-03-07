@@ -132,7 +132,7 @@ void scanAndConnect() {
 
   Serial.printf("[WiFi] Connecting | RSSI: %d dBm | Ch: %d\n", bestRSSI, bestChannel);
 
-  // connect dengan BSSID + channel spesifik agar lebih reliable
+  
   WiFi.setMinSecurity(WIFI_AUTH_WPA2_PSK);  
   WiFi.begin(ssid, password);
 
