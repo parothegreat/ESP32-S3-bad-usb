@@ -9,7 +9,7 @@ const char* password = "your_wifi_password";
 HIDkeyboard keyboard;
 AsyncWebServer server(80);
 
-// ─── Helper ────────────────────────────────────────────────────────────────
+//HID Helper
 
 void sendChar(char c) {
   uint8_t const conv_table[128][2] = { HID_ASCII_TO_KEYCODE };
@@ -43,7 +43,7 @@ bool waitHIDReady(int timeoutMs = 5000) {
   return true;
 }
 
-// ─── HID Actions ──────────────────────────────────────────────────────────
+// HID Actions 
 
 void openCMD() {
   if (!waitHIDReady()) return;
@@ -94,7 +94,7 @@ void initialPayload() {
   sendString("echo BadUSB device connected successfully\n");
 }
 
-// ─── WiFi ─────────────────────────────────────────────────────────────────
+// Wifi Connection test 
 
 void scanAndConnect() {
   Serial.println("[WiFi] Scanning networks...");
@@ -165,8 +165,7 @@ void connectWiFi() {
   }
 }
 
-// ─── Web Server ───────────────────────────────────────────────────────────
-
+// Web Server Setup
 void setupServer() {
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/html", R"rawliteral(
@@ -219,7 +218,7 @@ void setupServer() {
   server.begin();
 }
 
-// ─── Setup ────────────────────────────────────────────────────────────────
+// Setup
 
 void setup() {
   Serial.begin(115200);
@@ -243,7 +242,7 @@ Serial.println("\n=== ESP32-S3 BadUSB ");
   initialPayload();
 }
 
-// ─── Loop ─────────────────────────────────────────────────────────────────
+// Loop
 
 void loop() {
   if (WiFi.status() != WL_CONNECTED) {
