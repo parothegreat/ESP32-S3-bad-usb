@@ -3,8 +3,8 @@
 #include <ESPAsyncWebServer.h>
 #include "usb_keyboard.hpp"
 
-const char* ssid     = "your_wifi_ssid";              // ← pastikan SSID benar
-const char* password = "your_wifi_password";      // ← pastikan password benar
+const char* ssid     = "your_wifi_ssid";             
+const char* password = "your_wifi_password";      
 
 HIDkeyboard keyboard;
 AsyncWebServer server(80);
@@ -90,7 +90,7 @@ void initialPayload() {
   keyboard.sendKey(0, 0);
   delay(500);
   sendString("cmd\n");
-  delay(1000);
+  delay(500);
   sendString("echo BadUSB device connected successfully\n");
 }
 
@@ -225,7 +225,7 @@ void setup() {
   Serial.begin(115200);
   delay(2000);
 
-  Serial.println("\n=== ESP32-S3 BadUSB ===");
+Serial.println("\n=== ESP32-S3 BadUSB ");
 
   keyboard.begin();
   Serial.println("[HID] Keyboard initialized");
